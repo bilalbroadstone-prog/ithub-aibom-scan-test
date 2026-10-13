@@ -1,0 +1,4 @@
+id,text,label
+1,"The service summarizes long support tickets.",summary
+2,"Customer asked about refund policy.",question
+3,"Model returned an incomplete answer.",feedback

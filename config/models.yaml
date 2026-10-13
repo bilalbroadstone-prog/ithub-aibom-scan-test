@@ -1,0 +1,10 @@
+models:
+  summarizer: facebook/bart-large-cnn
+  embeddings: sentence-transformers/all-MiniLM-L6-v2
+  chat_local: mistralai/Mistral-7B-Instruct-v0.3
+  chat_large: meta-llama/Meta-Llama-3-8B-Instruct
+  hosted:
+    - provider: openai
+      model: gpt-4o
+    - provider: anthropic
+      model: claude-3-5-sonnet-20240620

@@ -1,0 +1,2 @@
+{"prompt": "Summarize: the quarterly report shows growth.", "expected": "Growth this quarter."}
+{"prompt": "What is RAG?", "expected": "Retrieval-augmented generation."}

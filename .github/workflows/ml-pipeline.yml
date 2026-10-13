@@ -1,0 +1,51 @@
+name: ML pipeline
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    services:
+      qdrant:
+        image: qdrant/qdrant:latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+      - run: pip install -r requirements.txt
+      - run: python -c "import app"
+
+  pull-models:
+    runs-on: ubuntu-latest
+    needs: test
+    if: github.ref == 'refs/heads/main'
+    container: pytorch/pytorch:latest
+    steps:
+      - run: pip install huggingface_hub
+      - run: huggingface-cli download facebook/bart-large-cnn
+      - run: huggingface-cli download sentence-transformers/all-MiniLM-L6-v2
+      - run: huggingface-cli download meta-llama/Meta-Llama-3-8B-Instruct
+      - run: huggingface-cli download mistralai/Mistral-7B-Instruct-v0.3
+
+  serve:
+    runs-on: ubuntu-latest
+    needs: pull-models
+    container: vllm/vllm-openai:latest
+    steps:
+      - run: echo "vllm serve mistralai/Mistral-7B-Instruct-v0.3"
+
+  ai-review:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: anthropics/claude-code-action@v1
+        with:
+          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+      - uses: openai/codex-action@v1
+        with:
+          openai-api-key: ${{ secrets.OPENAI_API_KEY }}

@@ -1,0 +1,19 @@
+{
+  "name": "ai-chat-web",
+  "version": "1.0.0",
+  "private": true,
+  "main": "index.js",
+  "scripts": { "start": "node index.js" },
+  "dependencies": {
+    "@anthropic-ai/sdk": "0.4.3",
+    "openai": "3.2.1",
+    "langchain": "0.0.100",
+    "@huggingface/inference": "2.5.0",
+    "axios": "0.21.1",
+    "express": "4.17.1",
+    "lodash": "4.17.15",
+    "jsonwebtoken": "8.5.1",
+    "minimist": "1.2.5",
+    "node-fetch": "2.6.0"
+  }
+}
